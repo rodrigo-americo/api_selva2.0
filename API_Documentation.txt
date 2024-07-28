@@ -1,0 +1,255 @@
+
+# Documentação das URLs da API
+
+Esta documentação explica as URLs disponíveis na API, como utilizá-las e fornece exemplos de requisições. Esta API permite registrar usuários, autenticar-se usando JWT e realizar operações CRUD (Criar, Ler, Atualizar, Deletar) com usuários autenticados.
+
+## Base URL
+
+A base URL para acessar a API é:
+
+http://127.0.0.1:8000/api/
+
+## Endpoints Disponíveis
+
+1. **Registrar Usuário**
+2. **Obter Token JWT**
+3. **Atualizar Token JWT**
+4. **Listar e Criar Usuários**
+5. **Detalhar, Atualizar e Deletar Usuários**
+
+---
+
+### 1. Registrar Usuário
+
+**URL**: `/register/`
+
+**Método**: POST
+
+**Descrição**: Permite registrar um novo usuário. Qualquer pessoa pode acessar este endpoint para criar uma conta.
+
+**Corpo da Requisição**:
+
+```json
+{
+  "userName": "novoUsuario",
+  "password": "senha123"
+}
+```
+
+**Exemplo de Requisição**:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/register/ -H "Content-Type: application/json" -d '{
+  "userName": "novoUsuario",
+  "password": "senha123"
+}'
+```
+
+**Exemplo de Resposta**:
+
+```json
+{
+  "id": 1,
+  "userName": "novoUsuario",
+  "active": true,
+  "datecreatedAt": "2024-07-27T12:34:56Z"
+}
+```
+
+---
+
+### 2. Obter Token JWT
+
+**URL**: `/token/`
+
+**Método**: POST
+
+**Descrição**: Permite obter um par de tokens JWT (Access Token e Refresh Token) usando as credenciais do usuário.
+
+**Corpo da Requisição**:
+
+```json
+{
+  "userName": "novoUsuario",
+  "password": "senha123"
+}
+```
+
+**Exemplo de Requisição**:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/token/ -H "Content-Type: application/json" -d '{
+  "userName": "novoUsuario",
+  "password": "senha123"
+}'
+```
+
+**Exemplo de Resposta**:
+
+```json
+{
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+---
+
+### 3. Atualizar Token JWT
+
+**URL**: `/token/refresh/`
+
+**Método**: POST
+
+**Descrição**: Permite atualizar o Access Token usando o Refresh Token.
+
+**Corpo da Requisição**:
+
+```json
+{
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+**Exemplo de Requisição**:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/token/refresh/ -H "Content-Type: application/json" -d '{
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}'
+```
+
+**Exemplo de Resposta**:
+
+```json
+{
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+---
+
+### 4. Listar e Criar Usuários
+
+**URL**: `/users/`
+
+**Método**: GET, POST
+
+**Descrição**: Permite listar todos os usuários e criar novos usuários. Apenas usuários autenticados podem acessar este endpoint.
+
+**Exemplo de Requisição para Listar Usuários**:
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/users/ -H "Authorization: Bearer <ACCESS_TOKEN>"
+```
+
+**Exemplo de Resposta para Listar Usuários**:
+
+```json
+[
+  {
+    "id": 1,
+    "userName": "novoUsuario",
+    "active": true,
+    "datecreatedAt": "2024-07-27T12:34:56Z"
+  },
+  ...
+]
+```
+
+**Exemplo de Requisição para Criar Usuário**:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/users/ -H "Authorization: Bearer <ACCESS_TOKEN>" -H "Content-Type: application/json" -d '{
+  "userName": "outroUsuario",
+  "password": "senha456"
+}'
+```
+
+**Exemplo de Resposta para Criar Usuário**:
+
+```json
+{
+  "id": 2,
+  "userName": "outroUsuario",
+  "active": true,
+  "datecreatedAt": "2024-07-27T13:45:21Z"
+}
+```
+
+---
+
+### 5. Detalhar, Atualizar e Deletar Usuários
+
+**URL**: `/users/<int:pk>/`
+
+**Método**: GET, PUT, DELETE
+
+**Descrição**: Permite obter detalhes, atualizar ou deletar um usuário específico pelo ID. Apenas usuários autenticados podem acessar este endpoint.
+
+**Exemplo de Requisição para Obter Detalhes de um Usuário**:
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/users/1/ -H "Authorization: Bearer <ACCESS_TOKEN>"
+```
+
+**Exemplo de Resposta para Obter Detalhes de um Usuário**:
+
+```json
+{
+  "id": 1,
+  "userName": "novoUsuario",
+  "active": true,
+  "datecreatedAt": "2024-07-27T12:34:56Z"
+}
+```
+
+**Exemplo de Requisição para Atualizar um Usuário**:
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/users/1/ -H "Authorization: Bearer <ACCESS_TOKEN>" -H "Content-Type: application/json" -d '{
+  "userName": "usuarioAtualizado",
+  "password": "novaSenha123"
+}'
+```
+
+**Exemplo de Resposta para Atualizar um Usuário**:
+
+```json
+{
+  "id": 1,
+  "userName": "usuarioAtualizado",
+  "active": true,
+  "datecreatedAt": "2024-07-27T12:34:56Z"
+}
+```
+
+**Exemplo de Requisição para Deletar um Usuário**:
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/users/1/ -H "Authorization: Bearer <ACCESS_TOKEN>"
+```
+
+**Exemplo de Resposta para Deletar um Usuário**:
+
+```json
+{
+  "detail": "Usuário deletado com sucesso."
+}
+```
+
+---
+
+### Autenticação
+
+Para acessar endpoints protegidos, é necessário incluir o Access Token no cabeçalho de autorização das requisições.
+
+**Exemplo de Cabeçalho de Autenticação**:
+
+```http
+Authorization: Bearer <ACCESS_TOKEN>
+```
+
+---
+
+Esta documentação fornece uma visão geral de como utilizar a API, incluindo exemplos de requisições para cada endpoint. Se você tiver dúvidas ou precisar de mais informações, entre em contato com o suporte.
