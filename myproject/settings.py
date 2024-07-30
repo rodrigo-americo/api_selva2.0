@@ -55,7 +55,7 @@ SIMPLE_JWT = {
 
 ROOT_URLCONF = 'myproject.urls'
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adicione o endereço do seu frontend
+    "http://localhost:8000",  # Adicione o endereço do seu frontend
     # Adicione outros domínios conforme necessário
 ]
 TEMPLATES = [
@@ -128,9 +128,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# Configure Django REST Framework para usar JWT Authentication
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}

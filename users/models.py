@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+
 class UserManager(BaseUserManager):
     def create_user(self, userName, password=None, **extra_fields):
         if not userName:
@@ -17,6 +18,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         return self.create_user(userName, password, **extra_fields)
+
 
 class User(AbstractBaseUser):
     userName = models.CharField(max_length=150, unique=True)
